@@ -1,0 +1,32 @@
+---
+name: quantizedoutput 自定义
+code: quantizedoutput
+type: extension
+copyright: >
+  boco 2017
+site:
+author: 'zhengchangjiang'
+abstract: quantizedoutput模块
+desc: >
+  【v1.1】有效输出月统计和年统计的日报工数据来源修改：跨库访问方式修改为日报工数据实体表（dw_worklog_sync）定期同步，并提供通过task_id访问对应有效输出的查询页面。
+  【v1.0】feature 1509：这个插件是用于管理有效输出统计，包括组织维度、项目维度和产品维度。
+  
+install: |
+  1. 通过禅道的插件管理来进行安装。
+    1.1 使用管理员身份登录禅道，访问插件管理。
+    1.2 打开获得插件页面，搜索找到本插件。
+    1.3 选择自动安装，按照页面提示即可。
+  2. 手工安装，将代码解压缩，然后将目录拷贝到禅道对应的目录，比如module拷贝到zentao的module。
+releases:
+  1.1:
+    zentaoversion: all
+    charge: free
+    license: 免费。
+    changelog: 有效输出月统计和年统计的日报工数据来源修改：跨库访问方式修改为日报工数据实体表（dw_worklog_sync）定期同步，并提供通过task_id访问对应有效输出的查询页面。
+    date: 2017-9-27
+  1.0:
+    zentaoversion: all
+    charge: free
+    license: 免费。该插件依赖的数据库补丁包包含在：日报工（feature-875;feature-850;feature-851;feature-852;feature-854）以及feature-1245；请确认上述补丁包已经安装过。
+    changelog: 首次发布。
+    date: 2017-9-19

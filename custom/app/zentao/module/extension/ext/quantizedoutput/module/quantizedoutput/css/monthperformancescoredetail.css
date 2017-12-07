@@ -1,0 +1,27 @@
+/**feature-1509**/
+body{background:white}
+.worklogs{padding:5px;}
+#titlebar {display:block;}
+
+.container {max-width: 950px!important;}
+.container .actions {margin-bottom: 10px; padding: 0}
+.container .actions > .text {padding: 5px 5px 5px 15px; line-height: 20px}
+.mw-220px {max-width: 220px!important}
+#wrap h1{font-size:14px;}
+#interval{margin-right:10px;}
+.canvas-wrapper {padding: 15px; border: 1px solid #ddd;}
+
+.chosen-container .chosen-results {
+    max-height: 150px!important;
+}
+
+.highlight-warning {background: #FBF5C6!important}
+.group-title td {background: #f1f1f1!important; border-bottom: 1px solid #ccc!important}
+tr.groupdivider td {background: #fff!important;}
+.groupdivider  .text {color: #808080}
+.groupdivider  .text strong {color: #333}
+.groupby{border-right:1px solid #ddd;cursor: pointer;}
+#groupTable tr > th:first-child, #groupTable tr > td:first-child{padding:6px 5px;} 
+
+.sub-featurebar {margin: -20px -20px -1px; padding: 5px 20px 0; border-bottom: none}
+.sub-featurebar .nav-tabs > li {margin-bottom: 0}

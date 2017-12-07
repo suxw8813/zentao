@@ -1,0 +1,12 @@
+<?php
+$config->installed       = true;
+$config->debug           = false;
+$config->requestType     = 'PATH_INFO';
+$config->db->host        = 'db_host';
+$config->db->port        = 'db_port';
+$config->db->name        = 'db_name';
+$config->db->user        = 'db_user';
+$config->db->password    = 'db_pass';
+$config->db->prefix      = 'zt_';
+$config->webRoot         = getWebRoot();
+$config->default->lang   = 'zh-cn';

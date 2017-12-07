@@ -1,0 +1,20 @@
+<?php
+/**feature-1509**/
+?>
+<div class='side-body'>
+  <div class='panel panel-sm'>
+    <div class='panel-heading nobr'><strong><?php echo $lang->quantizedoutput->list;?></strong></div>
+    <ul id='report-list' class='list-group'>
+    <?php
+        ksort($lang->quantizedoutputList->$submenu->lists);
+        foreach($lang->quantizedoutputList->$submenu->lists as $list)
+        {
+            $list .= '|';
+            list($label, $module, $method, $params) = explode('|', $list);
+            $class = $label == $title ? ' active' : '';
+            if(common::hasPriv($module, $method)) echo html::a($this->createLink($module, $method, $params), $label, '', "class='list-group-item $class'");
+        }
+    ?>
+    </ul>
+  </div>
+</div>

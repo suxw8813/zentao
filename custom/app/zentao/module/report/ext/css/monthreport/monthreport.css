@@ -1,0 +1,36 @@
+/**feature-1077**/
+
+.tendency-icon  {
+    float:left;
+    display: block;
+    background-repeat: no-repeat;
+    line-height: 25px;
+    width: 20px;
+    height:20px;
+}
+
+.table-cell {
+    float:left;
+    display:inline-block;
+}
+
+table#monthwork th {
+    text-align:left;
+}
+
+.side span.btn.btn-sm,
+.side a.btn.btn-sm {
+    display:block;
+    margin-bottom:5px;
+}
+
+/* side-width */
+.outer .side {
+    width: 87px!important;
+}
+.outer .side-body .panel {
+    min-width: 74px!important;
+}
+.outer.with-side .main{
+    margin-left: 95px!important;
+}

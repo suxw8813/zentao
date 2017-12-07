@@ -1,0 +1,56 @@
+/**feature-1509**/
+span.num {
+	float:left;
+	color:rgb(255,255,255);
+	display:block;
+	font-size:12px;
+	line-height:18px;
+	text-align:center;
+	padding-left: 2px;
+	padding-right: 2px;
+	width: 30px;
+}
+div.progress {
+	width: 75%;
+	float:left;
+    margin-left:5px;
+    height:18px;
+}
+div.progress .hitbar {
+	height:18px;
+	margin:0;
+	display:inline-block;
+}
+.bg-red {
+    background-color:rgb(255,93,95);
+}
+.bg-green {
+    background-color:green;
+}
+.bg-gray {
+    background-color: #e4e0e0;
+}
+
+.tendency-icon  {
+    float:left;
+    display: block;
+    background-repeat: no-repeat;
+    line-height: 25px;
+    width: 20px;
+    height:20px;
+}
+
+.table-cell {
+    float:left;
+    display:inline-block;
+}
+
+table#daywork th {
+    text-align:left;
+}
+
+.side span.btn.btn-sm,
+.side a.btn.btn-sm {
+    display:block;
+    margin-bottom:5px;
+}

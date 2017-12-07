@@ -1,0 +1,26 @@
+
+/**feature-1245**/
+body{background:white}
+.worklogs{padding:5px;}
+.worklogs .table{border: 1px solid #ddd;}
+#titlebar {display:block;}
+
+.task_type  {
+    color: rgb(255, 255, 255);
+    font-size:12px;
+    display: inline-block;
+    background-repeat: no-repeat;
+    line-height: 25px;
+    text-align: center;
+    width: 80px;
+    text-align: left;
+    padding-left: 21px;
+}
+.popover{
+    border-radius: 5px;
+}
+
+.heading span.btn.btn-sm{
+    padding-left:35px!important;
+    padding-right:35px!important;
+}

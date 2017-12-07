@@ -1,0 +1,7 @@
+# system cron.
+#min   hour day month week  command.
+0      1    *   *     *     /opt/zbox/app/zentao/bin/dailyreminder.sh   # dailyreminder.
+1      1    *   *     *     /opt/zbox/app/zentao/bin/backup.sh          # backup database and file.
+1      23   *   *     *     /opt/zbox/app/zentao/bin/computeburn.sh     # compute burndown chart.
+1-59/2 *    *   *     *     /opt/zbox/app/zentao/bin/syncsvn.sh         # sync subversion.
+1-59/2 *    *   *     *     /opt/zbox/app/zentao/bin/syncgit.sh         # sync git
