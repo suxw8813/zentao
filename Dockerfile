@@ -18,6 +18,8 @@ RUN mkdir -p /opt/zbox
 COPY ./source/ /opt/zbox
 COPY ./custom/ /opt/zbox
 
+RUN chown -R zentao:zentao /opt/zbox
+
 USER zentao
 
 CMD ["/opt/zbox/zbox", "start"]

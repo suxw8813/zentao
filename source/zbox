@@ -19,6 +19,31 @@ EOD;
     exit;
 }
 
+`sudo chown -R zentao:zentao /opt/zbox`;
+`rm -rf /opt/zbox/tmp/apache/httpd.pid`;
+`rm -rf /opt/zbox/app/zentao/config/my.php`;
+$inner_mysql = false;
+
+$db_host = str_replace("\n", "", explode("=", `env|grep db-host`)[1]);
+
+if(empty($db_host)){
+    $inner_mysql = true;
+    `cp /opt/zbox/app/zentao/config/my.php.init /opt/zbox/app/zentao/config/my.php`;
+}
+else{
+    $inner_mysql = false;
+    $db_port = str_replace("\n", "", explode("=", `env|grep db-port`)[1]);
+    $db_user = str_replace("\n", "", explode("=", `env|grep db-user`)[1]);
+    $db_pass = str_replace("\n", "", explode("=", `env|grep db-pass`)[1]);
+    $db_name = str_replace("\n", "", explode("=", `env|grep db-name`)[1]);
+
+    `sed 's/db_host/$db_host/g' /opt/zbox/app/zentao/config/my.php.template > /opt/zbox/app/zentao/config/my.php.1`;
+    `sed 's/db_port/$db_port/g' /opt/zbox/app/zentao/config/my.php.1 > /opt/zbox/app/zentao/config/my.php.2`;
+    `sed 's/db_user/$db_user/g' /opt/zbox/app/zentao/config/my.php.2 > /opt/zbox/app/zentao/config/my.php.3`;
+    `sed 's/db_pass/$db_pass/g' /opt/zbox/app/zentao/config/my.php.3 > /opt/zbox/app/zentao/config/my.php.4`;
+    `sed 's/db_name/$db_name/g' /opt/zbox/app/zentao/config/my.php.4 > /opt/zbox/app/zentao/config/my.php`;
+}
+
 /* Process argv. */
 $params = array();
 foreach($flipArgv as $key => $val)
@@ -71,10 +96,10 @@ if(isset($params['-mp']))
 if(!empty($argv)) $params['-k'] = reset($argv);
 if(isset($params['-k']))
 {
-    if(strpos(file_get_contents('/etc/group'), 'nogroup') === false) echo `groupadd nogroup`;
-    if(strpos(file_get_contents('/etc/passwd'), 'nobody') === false) echo `useradd nobody`;
+    /*if(strpos(file_get_contents('/etc/group'), 'nogroup') === false) echo `roupadd nogroup`;*/
+    /*if(strpos(file_get_contents('/etc/passwd'), 'nobody') === false) echo `useradd nobody`;*/
     `chmod -R 777 $basePath/tmp`;
-    `chown -R nobody $basePath/data/mysql`;
+    /*`chown -R nobody $basePath/data/mysql`;*/
 
     switch($params['-k'])
     {
@@ -91,19 +116,21 @@ if(isset($params['-k']))
             $httpd = `ps aux|grep '\/opt\/zbox\/run\/apache\/httpd '`;
             echo empty($httpd) ? "Start Apache fail. You can see the log /opt/zbox/logs/apache_error.log\n" : "Start Apache success\n";
         }
-
-        $mysql = `ps aux|grep '\/opt\/zbox\/run\/mysql\/mysqld '`;
-        if($mysql)
-        {
-            echo "Mysql is running\n";
-        }
-        else
-        {
-            echo `$basePath/run/mysql/mysql.server start --defaults-file=$basePath/etc/mysql/my.cnf`;
-            sleep(2);
-            $mysql = `ps aux|grep '\/opt\/zbox\/run\/mysql\/mysqld '`;
-            echo empty($mysql) ? "Start Mysql fail. You can see the log /opt/zbox/logs/mysql_error.log\n"   : "Start Mysql success\n";
-        }
+        
+	if($inner_mysql){
+	    $mysql = `ps aux|grep '\/opt\/zbox\/run\/mysql\/mysqld '`;
+            if($mysql)
+            {
+                echo "Mysql is running\n";
+            }
+            else
+            {
+                echo `$basePath/run/mysql/mysql.server start --defaults-file=$basePath/etc/mysql/my.cnf`;
+                sleep(2);
+                $mysql = `ps aux|grep '\/opt\/zbox\/run\/mysql\/mysqld '`;
+                echo empty($mysql) ? "Start Mysql fail. You can see the log /opt/zbox/logs/mysql_error.log\n"   : "Start Mysql success\n";
+            }
+	}
         break;
     case 'stop':
         $httpd = `ps aux|grep '\/opt\/zbox\/run\/apache\/httpd '`;
@@ -119,18 +146,20 @@ if(isset($params['-k']))
             echo "Apache is not running\n";
         }
 
-        $mysql = `ps aux|grep '\/opt\/zbox\/run\/mysql\/mysqld '`;
-        if($mysql)
-        {
-            echo `$basePath/run/mysql/mysql.server stop`;
-            sleep(2);
-            $mysql = `ps aux|grep '\/opt\/zbox\/run\/mysql\/mysqld '`;
-            echo empty($mysql) ? "Stop Mysql success\n"  : "Stop Mysql fail. You can see the log /opt/zbox/logs/mysql_error.log\n";
-        }
-        else
-        {
-            echo "Mysql is not running\n";
-        }
+        if($inner_mysql){
+	    $mysql = `ps aux|grep '\/opt\/zbox\/run\/mysql\/mysqld '`;
+            if($mysql)
+            {
+                echo `$basePath/run/mysql/mysql.server stop`;
+                sleep(2);
+                $mysql = `ps aux|grep '\/opt\/zbox\/run\/mysql\/mysqld '`;
+                echo empty($mysql) ? "Stop Mysql success\n"  : "Stop Mysql fail. You can see the log /opt/zbox/logs/mysql_error.log\n";
+            }
+            else
+            {
+                echo "Mysql is not running\n";
+            }
+	}
         break;
     case 'restart':
         echo `$basePath/run/apache/apachectl restart`;
@@ -138,18 +167,25 @@ if(isset($params['-k']))
         $httpd = `ps aux|grep '\/opt\/zbox\/run\/apache\/httpd '`;
         echo empty($httpd) ? "Restart Apache fail. You can see the log /opt/zbox/logs/apache_error.log\n" : "Retart Apache success\n";
 
-        echo `$basePath/run/mysql/mysql.server restart --defaults-file=$basePath/etc/mysql/my.cnf`;
-        sleep(2);
-        $mysql = `ps aux|grep '\/opt\/zbox\/run\/mysql\/mysqld '`;
-        echo empty($mysql) ? "Restart Mysql fail. You can see the log /opt/zbox/logs/mysql_error.log\n"   : "Retart Mysql success\n";
-        break;
+        if($inner_mysql){
+	    echo `$basePath/run/mysql/mysql.server restart --defaults-file=$basePath/etc/mysql/my.cnf`;
+            sleep(2);
+            $mysql = `ps aux|grep '\/opt\/zbox\/run\/mysql\/mysqld '`;
+            echo empty($mysql) ? "Restart Mysql fail. You can see the log /opt/zbox/logs/mysql_error.log\n"   : "Retart Mysql success\n";
+        }
+	break;
     case 'status':
         $httpd = `ps aux|grep '\/opt\/zbox\/run\/apache\/httpd '`;
         $mysql = `ps aux|grep '\/opt\/zbox\/run\/mysql\/mysqld '`;
         echo empty($httpd) ? "Apache is not running\n" : "Apache is running\n";
-        echo empty($mysql) ? "Mysql is not running\n" : "Mysql is running\n";
+        if($inner_mysql){
+	    echo empty($mysql) ? "Mysql is not running\n" : "Mysql is running\n";
+	}
     }
+
 }
+
+`tail -f /opt/zbox/logs/apache_access_log`;
 
 function changePort($file, $port, $regs)
 {

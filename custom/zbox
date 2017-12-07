@@ -117,8 +117,8 @@ if(isset($params['-k']))
             echo empty($httpd) ? "Start Apache fail. You can see the log /opt/zbox/logs/apache_error.log\n" : "Start Apache success\n";
         }
         
-	if($inner_mysql){
-	    $mysql = `ps aux|grep '\/opt\/zbox\/run\/mysql\/mysqld '`;
+        if($inner_mysql){
+            $mysql = `ps aux|grep '\/opt\/zbox\/run\/mysql\/mysqld '`;
             if($mysql)
             {
                 echo "Mysql is running\n";
@@ -130,7 +130,7 @@ if(isset($params['-k']))
                 $mysql = `ps aux|grep '\/opt\/zbox\/run\/mysql\/mysqld '`;
                 echo empty($mysql) ? "Start Mysql fail. You can see the log /opt/zbox/logs/mysql_error.log\n"   : "Start Mysql success\n";
             }
-	}
+        }
         break;
     case 'stop':
         $httpd = `ps aux|grep '\/opt\/zbox\/run\/apache\/httpd '`;
@@ -147,7 +147,7 @@ if(isset($params['-k']))
         }
 
         if($inner_mysql){
-	    $mysql = `ps aux|grep '\/opt\/zbox\/run\/mysql\/mysqld '`;
+            $mysql = `ps aux|grep '\/opt\/zbox\/run\/mysql\/mysqld '`;
             if($mysql)
             {
                 echo `$basePath/run/mysql/mysql.server stop`;
@@ -159,7 +159,7 @@ if(isset($params['-k']))
             {
                 echo "Mysql is not running\n";
             }
-	}
+        }
         break;
     case 'restart':
         echo `$basePath/run/apache/apachectl restart`;
@@ -168,19 +168,19 @@ if(isset($params['-k']))
         echo empty($httpd) ? "Restart Apache fail. You can see the log /opt/zbox/logs/apache_error.log\n" : "Retart Apache success\n";
 
         if($inner_mysql){
-	    echo `$basePath/run/mysql/mysql.server restart --defaults-file=$basePath/etc/mysql/my.cnf`;
+            echo `$basePath/run/mysql/mysql.server restart --defaults-file=$basePath/etc/mysql/my.cnf`;
             sleep(2);
             $mysql = `ps aux|grep '\/opt\/zbox\/run\/mysql\/mysqld '`;
             echo empty($mysql) ? "Restart Mysql fail. You can see the log /opt/zbox/logs/mysql_error.log\n"   : "Retart Mysql success\n";
         }
-	break;
+        break;
     case 'status':
         $httpd = `ps aux|grep '\/opt\/zbox\/run\/apache\/httpd '`;
         $mysql = `ps aux|grep '\/opt\/zbox\/run\/mysql\/mysqld '`;
         echo empty($httpd) ? "Apache is not running\n" : "Apache is running\n";
         if($inner_mysql){
-	    echo empty($mysql) ? "Mysql is not running\n" : "Mysql is running\n";
-	}
+            echo empty($mysql) ? "Mysql is not running\n" : "Mysql is running\n";
+        }
     }
 
 }
